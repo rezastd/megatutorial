@@ -1,13 +1,14 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
-from flask.ext.login import login_user logout_user, current_user, login_required
+from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, lm, oid
 from .forms import LoginForm
 from .models import User
 
 @app.route('/')
 @app.route('/index')
+@login_required
 def index():
-	user = {'nickname': 'Miguel'}  # fake user
+	user = g.user
 	posts = [
 	{
 	'author':{'nickname': 'john'},
@@ -48,4 +49,13 @@ def after_login(resp):
 		remember_me = session['remember_me']
 		session.pop('remember_me', None)
 	login_user(user, remember = remember_me)
-	return redirect(request.args.get('next') or url_for('index'))			
+	return redirect(request.args.get('next') or url_for('index'))
+
+@app.before_request
+def before_request():
+	g.user = current_user
+
+@app.route('/logout')
+def logout():
+	logout_user()
+	return redirect(url_for('index'))

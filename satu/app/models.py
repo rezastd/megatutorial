@@ -10,7 +10,7 @@ class User(db.Model):
         return True
     
     @property
-    def is_activate(self):
+    def is_active(self):
         return True
     
     @property

@@ -4,6 +4,14 @@ from app import app, db, lm, oid
 from .forms import LoginForm
 from .models import User
 
+@lm.user_loader
+def load_user(id):
+	return User.query.get(int(id))
+
+@app.before_request
+def before_request():
+	g.user = current_user
+
 @app.route('/')
 @app.route('/index')
 @login_required
@@ -22,6 +30,7 @@ def index():
 	return render_template("index.html", title='Home', user=user, posts=posts)
 
 @app.route('/login', methods=['GET', 'POST'])
+@oid.loginhandler
 def login():
 	if g.user is not None and g.user.is_authenticated:
 		return redirect(url_for('index'))
@@ -50,10 +59,6 @@ def after_login(resp):
 		session.pop('remember_me', None)
 	login_user(user, remember = remember_me)
 	return redirect(request.args.get('next') or url_for('index'))
-
-@app.before_request
-def before_request():
-	g.user = current_user
 
 @app.route('/logout')
 def logout():

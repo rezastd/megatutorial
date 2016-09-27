@@ -3,7 +3,7 @@ SECRET_KEY = 'my-key'
 
 OPENID_PROVIDERS = [
     {'name': 'Google', 'url': 'https://www.google.com/accounts/o8/id'},
-    {'name': 'Yahoo', 'url': 'https://me.yahoo.com'},
+    {'name': 'Yahoo', 'url': 'https://me.yahoo.com/a/LlNo3WAuiuVGRmexPX5y9wnDVleeDpsMlw--'},
     {'name': 'AOL', 'url': 'http://openid.aol.com/<username>'},
     {'name': 'FLickr', 'url': 'http://www.flickr.com/<username>'},
     {'name': 'MyOpenID', 'url': 'https://www.myopenid.com'}
